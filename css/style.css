@@ -1,0 +1,86 @@
+body {
+	background-image: url("../img/background.jpg");
+	background-color: #cccccc;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+}
+.text {
+	font-family: "Helvetica";
+}
+
+.transparent {
+	background-color: rgb(13, 13, 13, 0.1);
+}
+
+.navbar-custom {
+	background-color: rgb(13, 13, 13);
+	border-bottom: 3px solid rgb(0, 0, 0);
+	color: white;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-text {
+    color: rgba(255, 255, 255,.80);
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    color: rgba(255, 255, 255,.50);
+}
+
+.navbar-custom .nav-item.active .nav-link,
+.navbar-custom .nav-item:hover .nav-link {
+    color: #ffffff;
+}
+
+.jumbotron-custom {
+	background-color: rgb(13, 13, 13, 0.85);
+	border-bottom: 3px solid rgb(0, 0, 0);
+	color: white;
+}
+.tos-box {
+	background-color: rgb(13, 13, 13, 0.85);
+	border-top: 1px solid rgb(0, 0, 0);
+	border-bottom: 1px solid rgb(0, 0, 0);
+	color: white;
+}
+.card-custom {
+	background-color: rgb(13, 13, 13);
+	color: white;
+}
+.login-form-title {
+	color: white;
+}
+.login-form {
+	background-color: rgb(13, 13, 13);
+	color: white;
+}
+.login-form-body {
+	background-color: rgb(13, 13, 13, 0.85);
+	color: white;
+}
+.cp-body {
+	background-color: rgb(13, 13, 13, 0.85);
+	color: white;
+}
+.products-background {
+	background-color: rgb(13, 13, 13, 0.55);
+	color: white;
+}
+.products-sm-txt {
+	color: white;
+}
+.products-table-top {
+	background-color: rgb(13, 13, 13,0.75);
+	border-top: 3px solid rgb(0, 0, 0);
+	border-bottom: 3px solid rgb(0, 0, 0);
+	color: white;
+}
+.product-hr {
+	background-color: white
+}
+.product-brand {
+	padding:5px; 
+}
+.cat-header {
+	background-color: rgb(13, 13, 13);
+}
