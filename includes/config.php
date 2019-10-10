@@ -1,7 +1,7 @@
 <?php
 // Version control DO NOT CHANGE THIS!!
 
-$version = "4.3";
+$version = "4.3.5";
 $db_version = 1.3;
 
 // PayPal settings

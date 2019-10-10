@@ -22,11 +22,21 @@ $ip = (isset($_SERVER['REMOTE_ADDR']) ? $_SERVER['REMOTE_ADDR'] : (isset($_SERVE
 $query="SELECT * FROM items WHERE name = '".mysqli_real_escape_string($link, $item)."'"; 
 $result=mysqli_query($link , $query);
 $post=mysqli_fetch_assoc($result);
-$price=$post['price'];
+
+// THE ANTI HAXXOR PRICE CHECK
+
+$price = 133742069;
+
+if (isset($post['price'])) {
+	$price=$post['price'];
+} else {
+	die('<script>window.location.href = "index.php?err=disFeature";</script>');
+}
+
 $servers=json_decode($post['servers']);
 $command=json_decode($post['command']);
 if($post["onetime"]) {
-	$alreadyboughtq = mysqli_query($link,"SELECT * FROM transactions WHERE user='".$username."' AND item='".$item."'");
+	$alreadyboughtq = mysqli_query($link,"SELECT * FROM transactions WHERE user='".mysqli_real_escape_string($link,$username)."' AND item='".mysqli_real_escape_string($link,$item)."'");
 	if($alreadyboughtq && $alreadyboughtq->fetch_assoc()["user"]==$username) {
 		die('<script>window.location.href = "index.php?info=Onetime";</script>');
 	}
@@ -79,7 +89,7 @@ if (isset($_GET['token'])) {
 	if ($result['PAYMENTINFO_0_PAYMENTSTATUS'] == 'Completed') {
 		
 		// mysqli_query($link,"INSERT INTO transactions (item, user, ip, method, date, price) VALUES ('".mysqli_real_escape_string($link, $item)."', '".mysqli_real_escape_string($link, $username)."', '".mysqli_real_escape_string($link,$ip)."', 'PayPal', '".date("Y-m-d")."', ".mysqli_real_escape_string($link, $price-$discount).")");
-		mysqli_query($link, "INSERT INTO `transactions`(`item`, `user`, `ip`, `transaction_id`, `payer_id`, `method`, `date`, `price`) VALUES ('".mysqli_real_escape_string($link,$item)."', '".mysqli_real_escape_string($link,$username)."', '".mysqli_real_escape_string($link,$ip)."', '".mysqli_real_escape_string($link,$_GET["token"])."', '".mysqli_real_escape_string($link,$_GET["PayerID"])."', 'PayPal', '".date("Y-m-d")."', ".mysqli_real_escape_string($link,$price-$discount).")");
+		mysqli_query($link, "INSERT INTO `transactions`(`item`, `user`, `ip`, `transaction_id`, `payer_id`, `method`, `date`, `price`) VALUES ('".mysqli_real_escape_string($link,$item)."', '".mysqli_real_escape_string($link,$username)."', '".mysqli_real_escape_string($link,$ip)."', '".mysqli_real_escape_string($link,$_GET["token"])."', '".mysqli_real_escape_string($link,$_GET["PayerID"])."', 'PayPal', '".mysqli_real_escape_string($link,date("Y-m-d"))."', ".mysqli_real_escape_string($link,$price-$discount).")");
 			
 		processCommand($username, $command);
 		
@@ -110,7 +120,7 @@ if(isset($coupon) && $coupon!="") {
 }
 
 if ($price-$discount == 0) {
-	mysqli_query($link, "INSERT INTO `transactions`(`item`, `user`, `ip`, `transaction_id`, `payer_id`, `method`, `date`, `price`) VALUES ('".mysqli_real_escape_string($link,$item)."', '".mysqli_real_escape_string($link,$username)."', '".mysqli_real_escape_string($link,$ip)."', 'none', 'none', 'PayPal', '".date("Y-m-d")."', ".mysqli_real_escape_string($link,$price-$discount).")");
+	mysqli_query($link, "INSERT INTO `transactions`(`item`, `user`, `ip`, `transaction_id`, `payer_id`, `method`, `date`, `price`) VALUES ('".mysqli_real_escape_string($link,$item)."', '".mysqli_real_escape_string($link,$username)."', '".mysqli_real_escape_string($link,$ip)."', 'none', 'none', 'Coupon Discount', '".mysqli_real_escape($link,date("Y-m-d"))."', ".mysqli_real_escape_string($link,$price-$discount).")");
 			
 	processCommand($username, $command);
 	
@@ -171,7 +181,7 @@ if ($option == "PayPal") {
 		// Payment complete
 		
 		// mysqli_query($link,"INSERT INTO transactions (item, user, ip, method, date, price) VALUES ('".mysqli_real_escape_string($link, $item)."', '".mysqli_real_escape_string($link, $username)."', '".mysqli_real_escape_string($link,$ip)."', 'G2A', '".date("Y-m-d")."', ".mysqli_real_escape_string($link, $price-$discount).")"); // not working
-		mysqli_query($link, "INSERT INTO `transactions`(`item`, `user`, `ip`, `method`, `date`, `price`) VALUES ('".mysqli_real_escape_string($link,$item)."', '".mysqli_real_escape_string($link,$username)."', '".mysqli_real_escape_string($link,$ip)."', 'G2A', '".date("Y-m-d")."', ".mysqli_real_escape_string($link,$price-$discount).")");
+		mysqli_query($link, "INSERT INTO `transactions`(`item`, `user`, `ip`, `method`, `date`, `price`) VALUES ('".mysqli_real_escape_string($link,$item)."', '".mysqli_real_escape_string($link,$username)."', '".mysqli_real_escape_string($link,$ip)."', 'G2A', '".mysqli_real_escape_string($link,date("Y-m-d"))."', ".mysqli_real_escape_string($link,$price-$discount).")");
 		
 		processCommand($username, $command);
 		
@@ -224,7 +234,7 @@ function processCommand($username, $commands) {
 				$command.=$cmd."|";
 			}
 			$command = rtrim($command,"|").">";
-			$serverinfo = mysqli_query($link,"SELECT * FROM servers WHERE id=".$server)->fetch_assoc();
+			$serverinfo = mysqli_query($link,"SELECT * FROM servers WHERE id=".mysqli_real_escape_string($link, $server))->fetch_assoc();
 			$host = "tcp://".substr($serverinfo["ip"],0,strpos($serverinfo["ip"],":"));
 			$port = substr($serverinfo["ip"],strpos($serverinfo["ip"], ":")+1);
 			$password = $serverinfo["pass"];
