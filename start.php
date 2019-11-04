@@ -120,7 +120,7 @@ if(isset($coupon) && $coupon!="") {
 }
 
 if ($price-$discount == 0) {
-	mysqli_query($link, "INSERT INTO `transactions`(`item`, `user`, `ip`, `transaction_id`, `payer_id`, `method`, `date`, `price`) VALUES ('".mysqli_real_escape_string($link,$item)."', '".mysqli_real_escape_string($link,$username)."', '".mysqli_real_escape_string($link,$ip)."', 'none', 'none', 'Coupon Discount', '".mysqli_real_escape($link,date("Y-m-d"))."', ".mysqli_real_escape_string($link,$price-$discount).")");
+	mysqli_query($link, "INSERT INTO `transactions`(`item`, `user`, `ip`, `transaction_id`, `payer_id`, `method`, `date`, `price`) VALUES ('".mysqli_real_escape_string($link,$item)."', '".mysqli_real_escape_string($link,$username)."', '".mysqli_real_escape_string($link,$ip)."', 'none', 'none', 'Coupon Discount', '".mysqli_real_escape_string($link,date("Y-m-d"))."', ".mysqli_real_escape_string($link,$price-$discount).")");
 			
 	processCommand($username, $command);
 	
